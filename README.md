@@ -1,4 +1,4 @@
-# [Sponsorname] Audit
+# Ramses Exchange Audit
 
 Audit findings are submitted to this repo.
 
