@@ -1,0 +1,11 @@
+{
+  "contest": 447,
+  "handle": "BenRai",
+  "risk": "3",
+  "title": "When minting or increasing liquidity through `NonfungiblePositionManager`, access ETH send to the contract is not refunded ",
+  "issueId": 2,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/2",
+  "cohort": "cohort_1",
+  "sourceId": 36,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/36"
+}
