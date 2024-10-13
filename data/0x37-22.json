@@ -1,0 +1,13 @@
+{
+  "contest": 447,
+  "handle": "0x37",
+  "risk": "2",
+  "title": "Incorrect fee calculation in flash()",
+  "issueId": 22,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/22",
+  "cohort": "cohort_1",
+  "sourceId": 54,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/54",
+  "originalIssueId": 2,
+  "originalIssueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-validation/issues/2"
+}
