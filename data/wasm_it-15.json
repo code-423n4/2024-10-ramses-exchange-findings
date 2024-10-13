@@ -1,0 +1,13 @@
+{
+  "contest": 447,
+  "handle": "wasm_it",
+  "risk": "3",
+  "title": "Only 1/8 of the fee is captured for feeCollector rather than the actual % such as 80%",
+  "issueId": 15,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/15",
+  "cohort": "cohort_1",
+  "sourceId": 63,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/63",
+  "originalIssueId": 101,
+  "originalIssueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-validation/issues/101"
+}
