@@ -1,0 +1,13 @@
+{
+  "contest": 447,
+  "handle": "wasm_it",
+  "risk": "2",
+  "title": "Pool fee structure can be broken once set",
+  "issueId": 5,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/5",
+  "cohort": "cohort_1",
+  "sourceId": 39,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/39",
+  "originalIssueId": 100,
+  "originalIssueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-validation/issues/100"
+}
