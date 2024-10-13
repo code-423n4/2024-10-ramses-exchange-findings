@@ -1,0 +1,13 @@
+{
+  "contest": 447,
+  "handle": "NexusAudits",
+  "risk": "2",
+  "title": "Uninitialized Oracle Slots During Expansion Cause Data Gaps and Inaccurate AMM Readings",
+  "issueId": 11,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/11",
+  "cohort": "cohort_1",
+  "sourceId": 97,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/97",
+  "originalIssueId": 42,
+  "originalIssueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-validation/issues/42"
+}
