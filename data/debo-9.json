@@ -1,0 +1,13 @@
+{
+  "contest": 447,
+  "handle": "debo",
+  "risk": "2",
+  "title": "RamsesV3Pool has _advancePeriod Function Is Public but Should Be Internal",
+  "issueId": 9,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/9",
+  "cohort": "cohort_1",
+  "sourceId": 76,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/76",
+  "originalIssueId": 61,
+  "originalIssueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-validation/issues/61"
+}
