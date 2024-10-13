@@ -1,0 +1,13 @@
+{
+  "contest": 447,
+  "handle": "Matin",
+  "risk": "2",
+  "title": "Stuck rewards in GaugeV3 due to improper timing coordination and period dependency on `block.timestamp`",
+  "issueId": 13,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/13",
+  "cohort": "cohort_1",
+  "sourceId": 79,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/79",
+  "originalIssueId": 36,
+  "originalIssueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-validation/issues/36"
+}
