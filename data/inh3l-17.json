@@ -1,0 +1,13 @@
+{
+  "contest": 447,
+  "handle": "inh3l",
+  "risk": "2",
+  "title": "LPholders can be prevented from burning their position NFTs",
+  "issueId": 17,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/17",
+  "cohort": "cohort_1",
+  "sourceId": 68,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/68",
+  "originalIssueId": 89,
+  "originalIssueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-validation/issues/89"
+}
