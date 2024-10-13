@@ -1,0 +1,13 @@
+{
+  "contest": 447,
+  "handle": "Matin",
+  "risk": "2",
+  "title": "Imprecise tick cumulative is calculated inside the Oracle observations",
+  "issueId": 14,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/14",
+  "cohort": "cohort_1",
+  "sourceId": 27,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/27",
+  "originalIssueId": 35,
+  "originalIssueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-validation/issues/35"
+}
