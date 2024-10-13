@@ -1,0 +1,13 @@
+{
+  "contest": 447,
+  "handle": "minglei-wang-3570",
+  "risk": "2",
+  "title": "getReward should not forcefully transfer reward to msg.sender",
+  "issueId": 16,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/16",
+  "cohort": "cohort_1",
+  "sourceId": 101,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/101",
+  "originalIssueId": 95,
+  "originalIssueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-validation/issues/95"
+}
