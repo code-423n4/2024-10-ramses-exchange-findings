@@ -7,5 +7,7 @@
   "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/2",
   "cohort": "cohort_1",
   "sourceId": 36,
-  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/36"
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/36",
+  "targetId": 22,
+  "targetUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-known-issues/issues/22"
 }
