@@ -1,0 +1,11 @@
+{
+  "contest": 447,
+  "handle": "BenRai",
+  "risk": "2",
+  "title": "When creating a pool, no value is set for its `feeProtocol` variable resulting in revenue loss for the protocol",
+  "issueId": 30,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/30",
+  "cohort": "cohort_2",
+  "sourceId": 139,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/139"
+}
