@@ -1,0 +1,11 @@
+{
+  "contest": 447,
+  "handle": "BenRai",
+  "risk": "2",
+  "title": "It is not possible for a pool to have a protocolFee of 0",
+  "issueId": 29,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/29",
+  "cohort": "cohort_2",
+  "sourceId": 138,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/138"
+}
