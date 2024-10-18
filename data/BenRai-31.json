@@ -1,0 +1,11 @@
+{
+  "contest": 447,
+  "handle": "BenRai",
+  "risk": "3",
+  "title": "The function `Oracle.newPeriod` does not create a new observation rendering the whole period system useless",
+  "issueId": 31,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/31",
+  "cohort": "cohort_2",
+  "sourceId": 142,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/142"
+}
