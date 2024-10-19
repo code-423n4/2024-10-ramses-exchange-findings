@@ -1,0 +1,13 @@
+{
+  "contest": 447,
+  "handle": "MrPotatoMagic",
+  "risk": "2",
+  "title": "Treasury fees are not collected before setting a lower or higher treasury fee percentage",
+  "issueId": 32,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/32",
+  "cohort": "cohort_2",
+  "sourceId": 151,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/151",
+  "originalIssueId": 124,
+  "originalIssueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-validation/issues/124"
+}
