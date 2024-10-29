@@ -1,0 +1,11 @@
+{
+  "contest": 447,
+  "handle": "BenRai",
+  "risk": "2",
+  "title": "Not 100% of `protocolFees` are associated with the right period in the `feeDistributor`",
+  "issueId": 33,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/33",
+  "cohort": "cohort_3",
+  "sourceId": 177,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/177"
+}
