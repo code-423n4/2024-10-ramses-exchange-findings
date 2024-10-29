@@ -1,0 +1,11 @@
+{
+  "contest": 447,
+  "handle": "BenRai",
+  "risk": "2",
+  "title": "Burning positions in the nfpManager without checking if all LP incentive were claimed will result in lost / stuck funds in the gauge",
+  "issueId": 34,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/34",
+  "cohort": "cohort_3",
+  "sourceId": 198,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/198"
+}
