@@ -1,0 +1,11 @@
+{
+  "contest": 447,
+  "handle": "rileyholterhus",
+  "risk": "3",
+  "title": "`GaugeV3` rewards unclaimable when period is skipped",
+  "issueId": 40,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/40",
+  "cohort": "cohort_3",
+  "sourceId": 232,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/232"
+}
