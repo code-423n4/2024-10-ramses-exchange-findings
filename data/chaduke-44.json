@@ -1,0 +1,13 @@
+{
+  "contest": 447,
+  "handle": "chaduke",
+  "risk": "3",
+  "title": "cachePeriodEarned() uses the wrong denominator in calculating the amount of earning. ",
+  "issueId": 44,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/44",
+  "cohort": "cohort_3",
+  "sourceId": 281,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/281",
+  "originalIssueId": 224,
+  "originalIssueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-validation/issues/224"
+}
