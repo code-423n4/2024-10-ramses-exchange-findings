@@ -1,0 +1,13 @@
+{
+  "contest": 447,
+  "handle": "MrPotatoMagic",
+  "risk": "2",
+  "title": "Rewards are always lost and locked in GaugeV3.sol due to precision loss in positionPeriodsSecondsInRange() and cachePeriodEarned()",
+  "issueId": 42,
+  "issueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/42",
+  "cohort": "cohort_3",
+  "sourceId": 238,
+  "sourceUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-live/issues/238",
+  "originalIssueId": 189,
+  "originalIssueUrl": "https://github.com/code-423n4/2024-10-ramses-exchange-validation/issues/189"
+}
