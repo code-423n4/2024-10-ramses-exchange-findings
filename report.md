@@ -342,107 +342,72 @@ So, it is instead recommended to introduce separate `startSecondsPerLiquidityPer
 > cc @keccakdog 
 
 **[keccakdog (Ramses) commented](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/39#issuecomment-2455403796):**
- > @gzeon - In `GaugeV3::notifyRewardAmount()`, ` _advancePeriod()` is called at the start of the function. This means if there are any gauge rewards for the week due to voting, advance period would be called.
-> 
-> The one case this would occur is if someone called `notifyRewardAmountNextPeriod`, or the "`forPeriod`" variant + had no votes for the week + had no swaps or liq adds or removes, for the entire week.
-> 
-> As you can imagine this is a close to 0% chance of happening, since if there are rewards there is likely at least 1 interaction the entire period, or else these rewards are pointless. TLDR is this is a very very very very unlikely case (only possible if our entire project is dead and nobody is interacting 😓 ).
-> 
+ > @gzeon - In `GaugeV3::notifyRewardAmount()`, ` _advancePeriod()` is called at the start of the function. This means if there are any gauge rewards for the week due to voting, advance period would be called.<br>
+> The one case this would occur is if someone called `notifyRewardAmountNextPeriod`, or the "`forPeriod`" variant + had no votes for the week + had no swaps or liq adds or removes, for the entire week.<br>
+> As you can imagine this is a close to 0% chance of happening, since if there are rewards there is likely at least 1 interaction the entire period, or else these rewards are pointless. TLDR is this is a very very very very unlikely case (only possible if our entire project is dead and nobody is interacting 😓 ).<br>
 > It may be beneficial to document it or maybe add a safety check in case, but I do not find this as more than a Low finding at best since the assumption of our project being dead is essentially required for it work.
 
 **[gzeon (judge) decreased severity to Low/Non-Critical](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/39#issuecomment-2455655213)**
 
 **[rileyholterhus (warden) commented](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/39#issuecomment-2457960814):**
- > Hello judge/sponsor, thank you for your comments. I would like to escalate this issue for two reasons:
-> 
-> 1. I believe the bug has been misunderstood. The above comments are saying it's unlikely for a period `p` to be skipped while still having gauge rewards, as `notifyRewardAmount()` triggers `_advancePeriod()`, so rewards for a skipped period would need to be given in advance using `notifyRewardAmountNextPeriod()` or `notifyRewardAmountForPeriod()`. However this argument is not relevant to the bug. With this bug, inflated rewards in period `p` are due to period `p+1` being skipped and not period `p` being skipped. This can be seen in the PoC - notice that a theft is demonstrated using `notifyRewardAmount()`, while `notifyRewardAmountNextPeriod()`/`notifyRewardAmountForPeriod()` are never used.
-> 
-> 2. The above comments are focusing on how likely the bug is to be triggered by accident, but the bug can also be exploited intentionally. For one example, an attacker could deploy a pool with minimal liquidity, allocate gauge rewards at the last moment before the period switch, and then simply wait as further periods pass. Since the attacker independently deployed the pool and only provided minimal liquidity, others would be unlikely to engage with it at first, and the inflated rewards would silently build up. This is especially dangerous if the attacker knows a pool might gain popularity later, for example by knowing that a partner protocol plans to incentivize liquidity for a specific token pair in the future.
-> 
+ > Hello judge/sponsor, thank you for your comments. I would like to escalate this issue for two reasons:<br>
+> \1. I believe the bug has been misunderstood. The above comments are saying it's unlikely for a period `p` to be skipped while still having gauge rewards, as `notifyRewardAmount()` triggers `_advancePeriod()`, so rewards for a skipped period would need to be given in advance using `notifyRewardAmountNextPeriod()` or `notifyRewardAmountForPeriod()`. However this argument is not relevant to the bug. With this bug, inflated rewards in period `p` are due to period `p+1` being skipped and not period `p` being skipped. This can be seen in the PoC - notice that a theft is demonstrated using `notifyRewardAmount()`, while `notifyRewardAmountNextPeriod()`/`notifyRewardAmountForPeriod()` are never used.<br>
+> \2. The above comments are focusing on how likely the bug is to be triggered by accident, but the bug can also be exploited intentionally. For one example, an attacker could deploy a pool with minimal liquidity, allocate gauge rewards at the last moment before the period switch, and then simply wait as further periods pass. Since the attacker independently deployed the pool and only provided minimal liquidity, others would be unlikely to engage with it at first, and the inflated rewards would silently build up. This is especially dangerous if the attacker knows a pool might gain popularity later, for example by knowing that a partner protocol plans to incentivize liquidity for a specific token pair in the future.<br>
 > So, I believe this bug should not remain unaddressed, and is high severity and not QA.
 
 **[keccakdog (Ramses) commented](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/39#issuecomment-2457989958):**
- > Hey Riley, thank you for following up on this. While I see what you mean, the reason this was labeled a lesser severity is because the situation you are explaining is rather impossible. If there are meaningful rewards, at least ONE person would be LPing and interacting. Also, if there was lots of rewards and then nothing-- the gauge would see people removing liquidity, which unless I'm mistaken, nullifies this. Someone making a pool last second and voting for it is fine since if it was somehow a malicious gauge it could be killed and prevent abuse. The system has lots of checks in place to prevent gaming like this, and non-active pools are not profitable for people to vote on, so the only way period P rewards would be significant and P+1 being completely empty would mean not a single interaction occurs in P+1, which as you can imagine is extremely unlikely that someone would vote for a pool with 0 rewards in hopes of attempting to get more gauge rewards, when others can join in and take the rewards during the period as well. Since the damage is a multiplier of the existing rewards being inflated in the future-- the vulnerability requires heavy voting power to be worth anything. 
-> 
+ > Hey Riley, thank you for following up on this. While I see what you mean, the reason this was labeled a lesser severity is because the situation you are explaining is rather impossible. If there are meaningful rewards, at least ONE person would be LPing and interacting. Also, if there was lots of rewards and then nothing-- the gauge would see people removing liquidity, which unless I'm mistaken, nullifies this. Someone making a pool last second and voting for it is fine since if it was somehow a malicious gauge it could be killed and prevent abuse. The system has lots of checks in place to prevent gaming like this, and non-active pools are not profitable for people to vote on, so the only way period P rewards would be significant and P+1 being completely empty would mean not a single interaction occurs in P+1, which as you can imagine is extremely unlikely that someone would vote for a pool with 0 rewards in hopes of attempting to get more gauge rewards, when others can join in and take the rewards during the period as well. Since the damage is a multiplier of the existing rewards being inflated in the future-- the vulnerability requires heavy voting power to be worth anything.<br>
 > Hopefully that makes sense. I don't disagree with your finding that it is possible; but I disagree on the severity being very low due to the likelihood being close to 0
 
 **[rileyholterhus (warden) commented](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/39#issuecomment-2458167330):**
- > Hi @keccakdog - thank you for the follow-up. Since understanding the issue requires a lot of context, I would like to leave the following notes for the judge, and also respond to your points. Please feel free to correct me if I'm wrong in any of the following:
+ > Hi @keccakdog - thank you for the follow-up. Since understanding the issue requires a lot of context, I would like to leave the following notes for the judge, and also respond to your points. Please feel free to correct me if I'm wrong in any of the following:<br>
+> \- I believe we're in agreement that the initial comment that downgraded this issue is not relevant to this bug. However, note that the initial comment is relevant for [issue 40](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/40).
 > 
-> - I believe we're in agreement that the initial comment that downgraded this issue is not relevant to this bug. However, note that the initial comment is relevant for [issue 40](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/40).
-> 
-> - Part of the most recent comment is a counter-argument to my example of how an attacker could intentionally exploit the bug. I have the following response to those points:
-> 
-> 	>  *If there are meaningful rewards, at least ONE person would be LPing and interacting.*
-> 
-> 	This is why I think the attacker would allocate gauge rewards at the last moment before the period switch. This timing would leave no opportunity for others to react and compete for the rewards before the period ends, so there is no incentive-based reason for anyone to interact with the pool and inadvertently prevent the exploit.
-> 
-> 	> *Also, if there was lots of rewards and then nothing-- the gauge would see people removing liquidity, which unless I'm mistaken, nullifies this.*
-> 
-> 	The attacker only needs to provide a few wei of liquidity, since they aren't competing with anyone in the setup. So they incur no significant cost by abandoning their dust liquidity, and they could even choose to withdraw it in period `p+2` if needed.
-> 
-> 	> *Someone making a pool last second and voting for it is fine since if it was somehow a malicious gauge it could be killed and prevent abuse.*
-> 
-> 	I think this point addresses how the issue could be mitigated, which is separate from the severity of the issue itself.  An admin can only prevent the issue if they are aware of the bug. Therefore I believe this finding should be considered high-severity.
+> \- Part of the most recent comment is a counter-argument to my example of how an attacker could intentionally exploit the bug. I have the following response to those points:<br>
+> *"If there are meaningful rewards, at least ONE person would be LPing and interacting."*<br>
+> This is why I think the attacker would allocate gauge rewards at the last moment before the period switch. This timing would leave no opportunity for others to react and compete for the rewards before the period ends, so there is no incentive-based reason for anyone to interact with the pool and inadvertently prevent the exploit.<br>
+> *"Also, if there was lots of rewards and then nothing-- the gauge would see people removing liquidity, which unless I'm mistaken, nullifies this."*<br>
+> The attacker only needs to provide a few wei of liquidity, since they aren't competing with anyone in the setup. So they incur no significant cost by abandoning their dust liquidity, and they could even choose to withdraw it in period `p+2` if needed.<br>
+> *"Someone making a pool last second and voting for it is fine since if it was somehow a malicious gauge it could be killed and prevent abuse."*<br>
+> I think this point addresses how the issue could be mitigated, which is separate from the severity of the issue itself.  An admin can only prevent the issue if they are aware of the bug. Therefore I believe this finding should be considered high-severity.
 > 	
-> 
-> - I believe the remaining part of the above comment argues that it’s unlikely for this bug to occur accidentally, which I agree with:
-> 
-> 	> *The system has lots of checks in place to prevent gaming like this, and non-active pools are not profitable for people to vote on, so the only way period P rewards would be significant and P+1 being completely empty would mean not a single interaction occurs in P+1, which as you can imagine is extremely unlikely that someone would vote for a pool with 0 rewards in hopes of attempting to get more gauge rewards, when others can join in and take the rewards during the period as well. Since the damage is a multiplier of the existing rewards being inflated in the future-- the vulnerability requires heavy voting power to be worth anything.*
+> \- I believe the remaining part of the above comment argues that it’s unlikely for this bug to occur accidentally, which I agree with:<br>
+> *"The system has lots of checks in place to prevent gaming like this, and non-active pools are not profitable for people to vote on, so the only way period P rewards would be significant and P+1 being completely empty would mean not a single interaction occurs in P+1, which as you can imagine is extremely unlikely that someone would vote for a pool with 0 rewards in hopes of attempting to get more gauge rewards, when others can join in and take the rewards during the period as well. Since the damage is a multiplier of the existing rewards being inflated in the future-- the vulnerability requires heavy voting power to be worth anything."*
 > 
 > Thanks again for the consideration everyone.
 
 **[gzeon (judge) commented](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/39#issuecomment-2466421252):**
- > This is a tough call, but I think it is still more appropriate to have this as low risk.
-> 
+ > This is a tough call, but I think it is still more appropriate to have this as low risk.<br>
 > The situation as described is very unlikely as the sponsor explained. There are protocol incentives to make sure pool with gauge should have at least some activity. So unless this can be intentionally exploited, I think this is really quite impossible.
 
 **[rileyholterhus (warden) commented](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/39#issuecomment-2466596567):**
- > Hi @gzeon, thanks for the follow-up. Apologies for all the back-and-forth, but I think there may be a misunderstanding.
-> 
-> For this bug/exploit, no voting power is required. Notice that [the `notifyRewardAmount()` function](https://github.com/code-423n4/2024-10-ramses-exchange/blob/4a40eba36bc47eba8179d4f6203a4b84561a4415/contracts/CL/gauge/GaugeV3.sol#L147-L162) is permissionless, and in the PoC there is no voting power logic used.
-> 
-> Of course calling `notifyRewardAmount()` is not free - anyone who calls it will be transferring their own tokens to the in-range LPs for the period. But in the case of the following:
-> 
-> > *For one example, an attacker could deploy a pool with minimal liquidity, allocate gauge rewards at the last moment before the period switch, and then simply wait as further periods pass.*
-> 
-> The attacker is the sole in-range LP, so calling `notifyRewardAmount()` is just a self-transfer to give themselves a reward balance in the gauge, which is the first step to exploiting this bug.
-> 
+ > Hi @gzeon, thanks for the follow-up. Apologies for all the back-and-forth, but I think there may be a misunderstanding.<br>
+> For this bug/exploit, no voting power is required. Notice that [the `notifyRewardAmount()` function](https://github.com/code-423n4/2024-10-ramses-exchange/blob/4a40eba36bc47eba8179d4f6203a4b84561a4415/contracts/CL/gauge/GaugeV3.sol#L147-L162) is permissionless, and in the PoC there is no voting power logic used.<br>
+> Of course calling `notifyRewardAmount()` is not free - anyone who calls it will be transferring their own tokens to the in-range LPs for the period. But in the case of the following:<br>
+> *"For one example, an attacker could deploy a pool with minimal liquidity, allocate gauge rewards at the last moment before the period switch, and then simply wait as further periods pass."*<br>
+> The attacker is the sole in-range LP, so calling `notifyRewardAmount()` is just a self-transfer to give themselves a reward balance in the gauge, which is the first step to exploiting this bug.<br>
 > Do you see what I mean? I still believe this issue is not low-severity, and I'm happy to expand on any other parts of the discussion if additional clarification is needed. Thanks again!
 
 **[gzeon (judge) commented](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/39#issuecomment-2468773686):**
- > > *notifyRewardAmount() function is permissionless*
-> 
-> If the attacker choose to reward themselves, I don't see that as an issue. While `Voter.sol` is out-of-scope, according to Ramses v3 [doc](https://v3-docs.ramses.exchange/pages/voter-escrow#earning-incentives-and-fees):
-> 
-> > *A voting incentive is designated at anytime during the current EPOCH and paid out in lump sum at the start of the following EPOCH.*
-> 
-> > *Once an LP incentive is deposited it will distribute that token and the amount deposited for the next 7 days.*
-> 
-> So I think it is fair to assume it is expected to have reward to be notified near the start of a period. Any reward would incentivize LP activity and thus a period is unlikely to be skipped. Note even `p+1` does not have any reward, the lack of incentive is a incentive for LPs in `p` to remove liquidity, which also advances the period. If there are no other LP because the attacker is the sole LP, they would receive 100\% of the reward regardless of this issue.
-> 
+ > *"notifyRewardAmount() function is permissionless"*<br>
+> If the attacker choose to reward themselves, I don't see that as an issue. While `Voter.sol` is out-of-scope, according to Ramses v3 [doc](https://v3-docs.ramses.exchange/pages/voter-escrow#earning-incentives-and-fees):<br>
+> *"A voting incentive is designated at anytime during the current EPOCH and paid out in lump sum at the start of the following EPOCH."*<br>
+> *"Once an LP incentive is deposited it will distribute that token and the amount deposited for the next 7 days."*<br>
+> So I think it is fair to assume it is expected to have reward to be notified near the start of a period. Any reward would incentivize LP activity and thus a period is unlikely to be skipped. Note even `p+1` does not have any reward, the lack of incentive is a incentive for LPs in `p` to remove liquidity, which also advances the period. If there are no other LP because the attacker is the sole LP, they would receive 100\% of the reward regardless of this issue.<br>
 > Hence, it appears to me the incentives are well designed to make skipping a period `p` or `p+1` where `p` have non negligible incentive can be considered as impossible. 
 
 **[rileyholterhus (warden) commented](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/39#issuecomment-2468855082):**
- > Hi @gzeon thank you for the follow-up. I believe there’s still a misunderstanding.
-> 
-> > *If the attacker choose to reward themselves, I don’t see that as an issue.*
-> 
-> I agree - an attacker transferring funds to themselves isn't inherently an exploit. However, the point I was making is this:
-> 
-> > *calling `notifyRewardAmount()` is just a self-transfer to give themselves a reward balance in the gauge, which is the first step to exploiting this bug.*
-> 
-> In other words, if an attacker rewards themselves right before the period switch, they spend nothing (since it's a self-transfer), allocate rewards exclusively in period `p`, and the timing doesn't leave any opportunity for others to be incentivized to LP and interfere. This leads into the next point:
-> 
-> > *If there are no other LP because the attacker is the sole LP, they would receive 100\% of the reward regardless of this issue.*
-> 
+ > Hi @gzeon thank you for the follow-up. I believe there’s still a misunderstanding.<br>
+> *"If the attacker choose to reward themselves, I don’t see that as an issue."*<br>
+> I agree - an attacker transferring funds to themselves isn't inherently an exploit. However, the point I was making is this:<br>
+> *"calling `notifyRewardAmount()` is just a self-transfer to give themselves a reward balance in the gauge, which is the first step to exploiting this bug."*<br>
+> In other words, if an attacker rewards themselves right before the period switch, they spend nothing (since it's a self-transfer), allocate rewards exclusively in period `p`, and the timing doesn't leave any opportunity for others to be incentivized to LP and interfere. This leads into the next point:<br>
+> *"If there are no other LP because the attacker is the sole LP, they would receive 100\% of the reward regardless of this issue."*<br>
 > I agree here as well, but since this is being used as a counter-argument to invalidate the finding, I think there's a misunderstanding of the core bug. By establishing a reward balance in period `p`, the attacker gains an inflated reward balance with each subsequent skipped period. This is the main issue. 
 
 **[gzeon (judge) increased severity to Medium and commented](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/39#issuecomment-2468908071):**
- > > *identify an obsolete pool (it's inevitable that at least one pool will become inactive over time) and use its gauge to initiate the exploit. Instead of setting up an inflated balance to exploit future users, this would allow the attacker to inflate their balance to steal any unclaimed rewards from past activity*
-> 
-> Alright I think I am getting convinced, this attack does seems to work; I previously thought it requires the pool to have no liquidity (contradict with leftover reward), it actually only requires no liquidity in the active tick. It is conceivable that an obsolete pool may have stale liquidity in an inactive range where the attacker can deposit 2 wei liquidity from 2 account in the active range, notify reward equal to the leftover at the last second of a period and hope for no activity for the next period. There are no cost (except gas) for this attack because the attacker own 100\% of the active liquidity during the period they paid for the reward.
-> 
+ > *"identify an obsolete pool (it's inevitable that at least one pool will become inactive over time) and use its gauge to initiate the exploit. Instead of setting up an inflated balance to exploit future users, this would allow the attacker to inflate their balance to steal any unclaimed rewards from past activity"*<br>
+> Alright I think I am getting convinced, this attack does seems to work; I previously thought it requires the pool to have no liquidity (contradict with leftover reward), it actually only requires no liquidity in the active tick. It is conceivable that an obsolete pool may have stale liquidity in an inactive range where the attacker can deposit 2 wei liquidity from 2 account in the active range, notify reward equal to the leftover at the last second of a period and hope for no activity for the next period. There are no cost (except gas) for this attack because the attacker own 100\% of the active liquidity during the period they paid for the reward.<br>
 > In terms of severity, I think Medium is appropriate given the pre-condition required.
 
 
@@ -493,15 +458,14 @@ To ensure the right amount of fees are distributed to the protocol when a user i
 ```
 
 **[keccakdog (Ramses) commented](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/3#issuecomment-2408150954):**
- > While it passes the `UniswapV3Pool.spec` before the fix, this is an oversight due to `feeProtocol` no longer using bitshifting (like in regular UniswapV3). Our live V2 contracts were upgraded to make `feeProtocol` operate like this, and handle it -- but was not translated over.
-> 
+ > While it passes the `UniswapV3Pool.spec` before the fix, this is an oversight due to `feeProtocol` no longer using bitshifting (like in regular UniswapV3). Our live V2 contracts were upgraded to make `feeProtocol` operate like this, and handle it -- but was not translated over.<br>
 > Seems to be a valid finding by reading, would need to run test(s) to ensure it isn't handled elsewhere. 👍 
 
 **[keccakdog (Ramses) confirmed, but disagreed with severity and commented](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/3#issuecomment-2424217806):**
  > Valid finding; however, this should be downgraded to a Low due to no funds at risk.
 
 **[gzeon (judge) commented](https://github.com/code-423n4/2024-10-ramses-exchange-findings/issues/3#issuecomment-2453100336):**
- > > *2 — Med: Assets not at direct risk, but the function of the protocol or its availability could be impacted, or leak value with a hypothetical attack path with stated assumptions, but external requirements.*
+ > *"2 — Med: Assets not at direct risk, but the function of the protocol or its availability could be impacted, or leak value with a hypothetical attack path with stated assumptions, but external requirements."*
 
 
 ***
